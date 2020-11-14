@@ -31,6 +31,10 @@ const findUserByEmail = (email) => {
   return pool.query("SELECT * FROM users WHERE email = $1", [email]);
 };
 
+const getUserById = (id) => {
+  return pool.query("SELECT * FROM users WHERE id = $1", [id]);
+};
+
 const createUser = (user) => {
   const { username, usertype, firstname, lastname, email, password } = user;
   const id = generateID(256);
@@ -48,9 +52,19 @@ const createUser = (user) => {
   return id;
 };
 
+const deleteUser = (id) => {
+  pool.query("DELETE FROM users WHERE id = $1", [id], (error, results) => {
+    if (error) {
+      throw error;
+    }
+    return `User deleted with ID: ${id}`;
+  });
+};
+
 module.exports = {
   getUsers,
   getUserById,
   createUser,
+  deleteUser,
   findUserByEmail
 };
