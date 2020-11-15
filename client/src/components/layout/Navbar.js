@@ -2,9 +2,6 @@ import React from "react";
 import { Box, Heading, Flex, Button } from "@chakra-ui/react";
 
 const Navbar = (props) => {
-  const [show, setShow] = React.useState(false);
-  const handleToggle = () => setShow(!show);
-
   return (
     <Flex
       as="nav"
@@ -21,10 +18,7 @@ const Navbar = (props) => {
           BDS
         </Heading>
       </Flex>
-      <Box
-        display={{ sm: show ? "block" : "none", md: "block" }}
-        mt={{ base: 4, md: 0 }}
-      >
+      <Box display={{ base: "block" }} mt={{ base: 4, md: 0 }}>
         <Button bg="transparent" border="1px">
           Create account
         </Button>
