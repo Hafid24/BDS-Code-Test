@@ -19,16 +19,16 @@ import {
 
 const VARIANT_COLOR = "teal";
 
-const Login = () => {
+const Register = () => {
   return (
     <ThemeProvider theme={theme}>
       <CSSReset />
-      <LoginArea />
+      <RegisterArea />
     </ThemeProvider>
   );
 };
 
-const LoginArea = () => {
+const RegisterArea = () => {
   return (
     <Flex minHeight="100vh" width="full" align="center" justifyContent="center">
       <Box
@@ -42,8 +42,8 @@ const LoginArea = () => {
       >
         <ThemeSelector />
         <Box p={4}>
-          <LoginHeader />
-          <LoginForm />
+          <RegisterHeader />
+          <RegisterForm />
         </Box>
       </Box>
     </Flex>
@@ -64,7 +64,7 @@ const ThemeSelector = () => {
   );
 };
 
-const LoginHeader = () => {
+const RegisterHeader = () => {
   return (
     <Box textAlign="center">
       <Heading>Craete a new Account</Heading>
@@ -72,7 +72,7 @@ const LoginHeader = () => {
   );
 };
 
-const LoginForm = () => {
+const RegisterForm = () => {
   return (
     <Box my={8} textAlign="left">
       <form>
@@ -108,16 +108,16 @@ const LoginForm = () => {
             </Checkbox>
           </Box>
           <Box>
-            <Link color={`${VARIANT_COLOR}.500`}>Create an account</Link>
+            <Link color={`${VARIANT_COLOR}.500`}>Login instead.</Link>
           </Box>
         </Stack>
 
         <Button variantColor={VARIANT_COLOR} width="full" mt={4}>
-          Signup
+          Sign up
         </Button>
       </form>
     </Box>
   );
 };
 
-export default Login;
+export default Register;

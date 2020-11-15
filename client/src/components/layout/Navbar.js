@@ -18,9 +18,10 @@ const Navbar = (props) => {
           BDS
         </Heading>
       </Flex>
+
       <Box display={{ base: "block" }} mt={{ base: 4, md: 0 }}>
-        <Button bg="transparent" border="1px">
-          Create account
+        <Button data-testid="logout-btn" bg="transparent" border="1px">
+          Logout
         </Button>
       </Box>
     </Flex>
