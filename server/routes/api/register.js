@@ -85,7 +85,6 @@ router.post(
           if (err) {
             throw err;
           }
-          console.log("finish");
           res.json({ token });
         }
       );
