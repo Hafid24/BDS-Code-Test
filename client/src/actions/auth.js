@@ -88,15 +88,12 @@ export const login = (email, password) => async (dispatch) => {
       body,
       config
     );
-
-    console.log(res.data);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data
     });
     dispatch(loadUser());
   } catch (error) {
-    console.log(error.response, "hey");
     const errors = error.response.data.errors;
     if (errors) {
       errors.forEach((error) => {
