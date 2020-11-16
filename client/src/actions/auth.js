@@ -17,7 +17,7 @@ export const loadUser = () => async (dispatch) => {
     setAuthToken(localStorage.token);
   }
   try {
-    const res = await axios.get("/api/auth");
+    const res = await axios.get("http://localhost:5715/api/auth");
     dispatch({
       type: USER_LOADED,
       payload: res.data
@@ -30,15 +30,31 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
-export const register = ({ name, email, password }) => async (dispatch) => {
+export const register = ({
+  username,
+  firstname,
+  lastname,
+  email,
+  password
+}) => async (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
-  const body = JSON.stringify({ name, email, password });
+  const body = JSON.stringify({
+    username,
+    firstname,
+    lastname,
+    email,
+    password
+  });
   try {
-    const res = await axios.post("/api/users", body, config);
+    const res = await axios.post(
+      "http://localhost:5715/api/users",
+      body,
+      config
+    );
     dispatch({
       type: REGISTER_SUCCESS,
       payload: res.data
@@ -61,19 +77,26 @@ export const register = ({ name, email, password }) => async (dispatch) => {
 export const login = (email, password) => async (dispatch) => {
   const config = {
     headers: {
+      Accept: "application/json",
       "Content-Type": "application/json"
     }
   };
   const body = JSON.stringify({ email, password });
   try {
-    const res = await axios.post("/api/auth", body, config);
+    const res = await axios.post(
+      "http://localhost:5715/api/auth",
+      body,
+      config
+    );
+
+    console.log(res.data);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data
     });
     dispatch(loadUser());
   } catch (error) {
-    console.log(error.response);
+    console.log(error.response, "hey");
     const errors = error.response.data.errors;
     if (errors) {
       errors.forEach((error) => {
@@ -98,7 +121,11 @@ export const deleteUser = (id) => async (dispatch) => {
 
   const body = JSON.stringify({ id });
   try {
-    const res = await axios.delete("/api/auth", body, config);
+    const res = await axios.delete(
+      "http://localhost:5715/api/auth",
+      body,
+      config
+    );
     dispatch({
       type: DELETE_USER,
       payload: res.data

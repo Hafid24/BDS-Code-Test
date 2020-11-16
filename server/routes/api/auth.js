@@ -34,6 +34,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     const { email, password } = req.body;
+    console.log(req.body);
     try {
       // Checks email
       let user = await userQueries.findUserByEmail(email);

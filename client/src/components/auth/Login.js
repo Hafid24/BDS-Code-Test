@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link as A, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { login } from "../../actions/auth";
+
 import {
   ThemeProvider,
   theme,
   CSSReset,
   Box,
   Flex,
-  IconButton,
-  useColorMode,
   Heading,
   Link,
   FormControl,
@@ -19,16 +22,20 @@ import {
 
 const VARIANT_COLOR = "teal";
 
-const Login = () => {
+const Login = ({ login, isAuthenticated }) => {
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CSSReset />
-      <LoginArea />
+      <LoginArea login={login} isAuthenticated={isAuthenticated} />
     </ThemeProvider>
   );
 };
 
-const LoginArea = () => {
+const LoginArea = ({ login, isAuthenticated }) => {
   return (
     <Flex
       minHeight="100vh"
@@ -46,50 +53,62 @@ const LoginArea = () => {
         textAlign="center"
         boxShadow="lg"
       >
-        <ThemeSelector />
         <Box p={4}>
           <LoginHeader />
-          <LoginForm />
+          <LoginForm login={login} isAuthenticated={isAuthenticated} />
         </Box>
       </Box>
     </Flex>
   );
 };
 
-const ThemeSelector = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
-
-  return (
-    <Box textAlign="right" py={4}>
-      <IconButton
-        icon={colorMode === "light" ? "moon" : "sun"}
-        onClick={toggleColorMode}
-        variant="ghost"
-      />
-    </Box>
-  );
-};
-
 const LoginHeader = () => {
   return (
     <Box textAlign="center">
-      <Heading>Sign In to Your Account</Heading>
+      <Heading>Login to Your Account</Heading>
     </Box>
   );
 };
 
-const LoginForm = () => {
+const LoginForm = ({ login }) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+
+  const { email, password } = formData;
+  console.log(email, password);
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    login(email, password);
+  };
+
   return (
     <Box my={8} textAlign="left">
       <form>
         <FormControl>
           <FormLabel>Email address</FormLabel>
-          <Input type="email" placeholder="Enter your email address" />
+          <Input
+            type="email"
+            placeholder="Enter your email address"
+            onChange={(e) => onChange(e)}
+            name="email"
+            required
+          />
         </FormControl>
 
         <FormControl mt={4}>
           <FormLabel>Password</FormLabel>
-          <Input type="password" placeholder="Enter your password" />
+          <Input
+            type="password"
+            placeholder="Enter your password"
+            onChange={(e) => onChange(e)}
+            name="password"
+            required
+          />
         </FormControl>
 
         <Stack isInline justifyContent="space-between" mt={4}>
@@ -99,11 +118,19 @@ const LoginForm = () => {
             </Checkbox>
           </Box>
           <Box>
-            <Link color={`${VARIANT_COLOR}.500`}>Create an account</Link>
+            <Link color={`${VARIANT_COLOR}.500`}>
+              {" "}
+              <A to="/register">Create an account</A>
+            </Link>
           </Box>
         </Stack>
 
-        <Button variantColor={VARIANT_COLOR} width="full" mt={4}>
+        <Button
+          variantColor={VARIANT_COLOR}
+          width="full"
+          mt={4}
+          onClick={(e) => onSubmit(e)}
+        >
           Sign In
         </Button>
       </form>
@@ -111,4 +138,13 @@ const LoginForm = () => {
   );
 };
 
-export default Login;
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+};
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { login })(Login);

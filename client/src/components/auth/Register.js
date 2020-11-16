@@ -67,7 +67,7 @@ const ThemeSelector = () => {
 const RegisterHeader = () => {
   return (
     <Box textAlign="center">
-      <Heading>Craete a new Account</Heading>
+      <Heading>Create a new Account</Heading>
     </Box>
   );
 };
