@@ -6,13 +6,15 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGOUT,
-  DELETE_USER
+  DELETE_USER,
+  DELETE_ACCOUNT
 } from "../actions/types";
 
 const initialState = {
   token: localStorage.getItem("token"),
   isAuthenticated: null,
-  user: null
+  user: null,
+  loading: true
 };
 
 export default (state = initialState, action) => {
@@ -22,7 +24,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isAuthenticated: true,
-        user: payload
+        user: payload,
+        loading: false
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -30,7 +33,8 @@ export default (state = initialState, action) => {
       return {
         ...state,
         ...payload,
-        isAuthenticated: true
+        isAuthenticated: true,
+        loading: true
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:
@@ -40,13 +44,25 @@ export default (state = initialState, action) => {
       return {
         ...state,
         token: null,
-        isAuthenticated: false
+        isAuthenticated: false,
+        loading: false
       };
     case DELETE_USER:
+      const newUser = state.user;
+      newUser.allUsers = state.user.allUsers.filter(
+        (user) => user.id !== payload
+      );
+
       return {
         ...state,
-        ...payload,
+        user: newUser,
         isAuthenticated: true
+      };
+    case DELETE_ACCOUNT:
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false
       };
 
     default:

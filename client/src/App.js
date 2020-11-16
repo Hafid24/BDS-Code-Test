@@ -44,8 +44,8 @@ const App = () => {
           <CSSReset />
           <Fragment>
             <Navbar />
-            <PrivateRoute exact path="/" component={Dashboard} />
             <Alert />
+            <PrivateRoute exact path="/" component={Dashboard} />
             <section>
               <Switch>
                 <Route exact path="/register" component={Register} />
