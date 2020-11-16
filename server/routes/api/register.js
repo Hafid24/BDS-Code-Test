@@ -18,7 +18,7 @@ router.post(
       .not()
       .isEmpty(),
     check("email", "Please include a valid email").isEmail(),
-    check("username", "Please enter a username with 6 or more characters")
+    check("username", "Please enter a username with less than 20 characters")
       .matches(/^[a-zA-Z0-9_.]*$/, "i")
       .isLength({ max: 20 })
       .not()

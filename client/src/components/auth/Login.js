@@ -77,7 +77,6 @@ const LoginForm = ({ login }) => {
   });
 
   const { email, password } = formData;
-  console.log(email, password);
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
