@@ -91,6 +91,7 @@ const Dashboard = ({
               variantColor={VARIANT_COLOR}
               onClick={() => deleteUser(user.id)}
               display={user.userType === "admin"}
+              mb={4}
             >
               Delete Account
             </Button>
